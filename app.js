@@ -10,9 +10,11 @@ const router = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const devDatabase = 'mongodb://127.0.0.1:27017/bitfilmsdb';
 const {
   PORT = 3000,
-  DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
+  DB_URL,
+  NODE_ENV,
 } = process.env;
 const app = express();
 const allowedCors = [
@@ -41,7 +43,7 @@ app.use(helmet());
 app.use(requestLogger);
 app.use(router);
 app.use(errorLogger);
-mongoose.connect(DB_URL, {
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : devDatabase, {
   useNewUrlParser: true,
 });
 app.use(errors());
