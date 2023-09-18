@@ -4,18 +4,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { errors } = require('celebrate');
 const helmet = require('helmet');
-const router = require('./routes/index');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
+const router = require('./routes/index');
 const errorHandler = require('./middlewares/error-handler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const {
   PORT = 3000,
   DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb',
 } = process.env;
 const app = express();
 const allowedCors = [
-  'http://lusishoes.students.nomoredomainsicu.ru',
-  'https://lusishoes.students.nomoredomainsicu.ru',
+  'http://lusishoes.movies.nomoredomainsrocks.ru',
+  'https://lusishoes.movies.nomoredomainsrocks.ru',
   'https://localhost:3000',
   'http://localhost:3000',
 ];
@@ -27,6 +29,13 @@ const corsOptions = {
   optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(requestLogger);
@@ -38,6 +47,5 @@ mongoose.connect(DB_URL, {
 app.use(errors());
 app.use(errorHandler);
 app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
   console.log(`App listening on port ${PORT}`);
 });

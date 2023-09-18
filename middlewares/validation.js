@@ -15,7 +15,7 @@ module.exports.valideteMovieCreation = celebrate({
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-  })
+  }),
 });
 
 module.exports.valideteMovieById = celebrate({
@@ -28,7 +28,7 @@ module.exports.valideteUpdateUserInfo = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     name: Joi.string().min(2).max(30).required(),
-  })
+  }),
 });
 
 module.exports.validateUserCreation = celebrate({
@@ -36,7 +36,7 @@ module.exports.validateUserCreation = celebrate({
     email: Joi.string().required().email(),
     name: Joi.string().min(2).max(30).required(),
     password: Joi.string().required(),
-  })
+  }),
 });
 
 module.exports.validateUserLogin = celebrate({

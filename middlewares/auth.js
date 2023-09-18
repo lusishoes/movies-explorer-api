@@ -1,5 +1,3 @@
-// middlewares/auth.js
-
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
@@ -20,7 +18,7 @@ module.exports = (req, res, next) => {
     next(new UnauthorizedError('Необходима авторизация'));
   }
 
-  req.user = payload; // записываем пейлоуд в объект запроса
+  req.user = payload;
 
-  next(); // пропускаем запрос дальше
+  next();
 };
