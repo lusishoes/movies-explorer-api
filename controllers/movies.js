@@ -3,15 +3,17 @@ const MovieSchema = require('../models/movie');
 const ForbiddenError = require('../errors/ForbiddenError');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
-
 const OkStatus = 200;
 const CreatedStatus = 201;
 
 const getMovies = (req, res, next) => {
   const owner = req.user._id;
   MovieSchema.find({ owner })
-    .orFail()
-    .then((movies) => res.status(OkStatus).send(movies))
+    // .orFail()
+    .then((movies) => {
+        // console.log(movies)
+        res.status(OkStatus).send(movies);
+    })
     .catch((err) => {
       next(err);
     });
